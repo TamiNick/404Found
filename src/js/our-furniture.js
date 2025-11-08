@@ -108,6 +108,7 @@ function createGallery (items) {
     });
 
     attachColorSwitch();
+    //addEventDetailButtons ();
 }
 
 function attachColorSwitch() {
@@ -123,3 +124,15 @@ function attachColorSwitch() {
         });
     });
 }
+
+// .our-furniture .furniture-items .item .details-button
+
+/* function addEventDetailButtons () {
+    const detailButtons = document.querySelectorAll(".our-furniture .furniture-items .item .details-button");
+
+    detailButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            
+        });
+    });
+} */ 
