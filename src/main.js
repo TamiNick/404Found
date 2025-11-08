@@ -1,8 +1,9 @@
 import './css/styles.css';
 import Accordion from 'accordion-js';
-
-window.Accordion = Accordion;
 import { initFaqAccordion } from './js/faq.js';
+window.Accordion = Accordion;
+
+// ініціалізація
 document.addEventListener('DOMContentLoaded', () => {
-  initFaqAccordion();
+  initFaqAccordion(); // це фунція з FAQ
 });
