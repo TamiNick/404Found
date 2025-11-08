@@ -34,7 +34,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-
     margin-bottom: 40px;
 
     
@@ -44,6 +43,8 @@
     flex-basis: calc((100% - 16px) / 2);
 
     position: relative;
+
+    transition: transform 250ms ease-in-out;
 }
 
 .container-furniture .options .option > span {
@@ -60,13 +61,26 @@
     outline: none;
 }
 
+
+.container-furniture .options .option::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 8px solid transparent; 
+  transition: border-color 250ms ease-in-out;
+
+  box-sizing: border-box;
+}
+
 .container-furniture .options .option.active::after {
-    content: "";
-    inset: 0px;              
-    border-radius: 6px;
-    border: 8px solid #6B0609;
+  
+    border-color: #6B0609;
+
+    transition: border-color 250ms ease-in-out, transform 250ms ease-in-out;
 
     position: absolute;
+
 }
 
 @media screen and (min-width: 768px) {
@@ -95,17 +109,17 @@
     }
 
     .container-furniture .options .option {
-    flex-basis: calc((100% - 6 * 24px) / 7);
+        flex-basis: calc((100% - 6 * 24px) / 7);
 
-    position: relative;
-}
+        position: relative;
+    }
 }
 
 
 .our-furniture .container-furniture .show-more {
     display: block;
     padding: 10px 0;
-    margin: 32px auto 48px;
+    margin: 32px auto 0;
 
     width: 100%;
 
@@ -128,7 +142,7 @@
     opacity: 50%;
 }
 
-.our-furniture .container-furniture .show-more:focus {
+.our-furniture .container-furniture .show-more.active {
     opacity: 20%;
 }
 
@@ -141,7 +155,7 @@
 
 @media screen and (min-width: 1440px) {
     .our-furniture .container-furniture .show-more {
-        margin: 32px auto 80px;
+        margin: 32px auto 0;
         width: 421px;
     }
 
@@ -193,6 +207,8 @@
     height: 24px;
     border-radius: 50%;
     border: 1px solid rgba(131, 133, 132, 0.1);
+
+    transition: border 250ms ease-in-out;
 }
 
 .our-furniture .furniture-items .item .color-options .color:focus,
