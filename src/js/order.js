@@ -1,3 +1,5 @@
+// Open modal window - 
+// document.querySelector('.order-modal').classList.remove('hidden')
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
@@ -42,23 +44,52 @@ form.addEventListener('submit', async e => {
 		}
 	});
 
+	const phonePattern = /^\+?\d{10,15}$/;
+	if (!phonePattern.test(phoneInput.value.trim())) {
+		phoneInput.classList.add('error');
+		iziToast.error({
+			title: 'Помилка',
+			message: 'Введіть правильний номер телефону у форматі +380XXXXXXXXX',
+			position: 'center',
+			timeout: 3000,
+		});
+		return;
+	}
+
+	const comment = commentInput.value.trim();
+
+	const commentPattern = /^[a-zA-Zа-яА-ЯїЇіІєЄґҐ0-9\s.,!?'"()\-:;]{5,300}$/u;
+
+	if (!commentPattern.test(comment)) {
+		commentInput.classList.add('error');
+		iziToast.error({
+			title: 'Помилка',
+			message: 'Коментар має містити від 5 до 300 символів і не містити заборонених знаків.',
+			position: 'center',
+			timeout: 3000,
+		});
+		return;
+	}
+
 	if (!valid) {
 		iziToast.error({
 			title: 'Помилка',
 			message: 'Заповніть усі обовʼязкові поля!',
-			position: 'topRight',
+			position: 'center',
+			timeout: 3000,
 		});
 		return;
 	}
 
 	const demo_product_id = '682f9bbf8acbdf505592ac36';
+	const demo_color = '#1212ca';
 
 	const payload = {
-		"name": nameInput.value.trim(),
-		"phone": phoneInput.value.trim(),
-		"modelId": localStorage.getItem('selectedFurnitureId') || demo_product_id,
-		"color": "#1212ca",
-		"comment": commentInput.value.trim(),
+		name: nameInput.value.trim(),
+		phone: phoneInput.value.trim(),
+		modelId: localStorage.getItem('selectedFurnitureId') || demo_product_id,
+		color: localStorage.getItem('selectedFurnitureColor') || demo_color,
+		comment: comment,
 	};
 
 	try {
@@ -70,7 +101,13 @@ form.addEventListener('submit', async e => {
 
 		if (!response.ok) {
 			const errorData = await response.json();
-			throw new Error(errorData.message || 'Помилка сервера');
+			iziToast.error({
+				title: 'Помилка сервера',
+				message: errorData.message || 'Не вдалося зробити замовлення.',
+				position: 'center',
+				timeout: 3000,
+			});
+			return;
 		}
 
 		iziToast.success({
