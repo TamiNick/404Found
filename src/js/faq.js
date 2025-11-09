@@ -1,6 +1,6 @@
 import Accordion from 'accordion-js';
-import '../css/faq.css';
-export function initFaqAccordion() {
+import '/css/faq.css';
+function initFaqAccordion() {
   const accordionContainer = document.querySelector('.accordion-container');
 
   if (!accordionContainer) {
@@ -17,3 +17,4 @@ export function initFaqAccordion() {
     });
   } catch (error) {}
 }
+document.addEventListener('DOMContentLoaded', initFaqAccordion);
