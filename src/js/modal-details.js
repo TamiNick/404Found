@@ -1,9 +1,5 @@
-// modal-details.js
-
-// Посилання на контейнер, куди буде рендеритися модалка (з index.html)
 const modalArea = document.querySelector('.modal-wrapper');
-
-// --- API ФУНКЦІЇ ---
+// Припускаємо, що axios та iziToast доступні глобально
 
 async function getFurnitureById(id) {
     const url = `https://furniture-store-v2.b.goit.study/api/furnitures/${id}`;
@@ -22,18 +18,14 @@ async function getFurnitureById(id) {
 // --- ФУНКЦІЇ МОДАЛЬНОГО ВІКНА ---
 
 export function addEventDetailButtons() {
-    // Ця функція експортується, щоб викликатися у script.js після рендерингу галереї
     const detailButtons = document.querySelectorAll(".details-button");
 
     detailButtons.forEach(button => {
         button.addEventListener("click", async (event) => {
             const itemId = event.target.dataset.id; 
-
-            // Отримуємо повні дані про товар
             const furnitureDetails = await getFurnitureById(itemId);
 
             if (furnitureDetails) {
-                // Рендеримо та показуємо модальне вікно
                 renderModal(furnitureDetails);
             }
         });
@@ -41,12 +33,11 @@ export function addEventDetailButtons() {
 }
 
 function renderModal(item) {
-    // Створюємо розмітку модального вікна, використовуючи дані з 'item'
+    // Створення розмітки модального вікна (без змін, оскільки тут все коректно)
     const modalMarkup = `
         <div class="modal-backdrop" id="productModal">
             <div class="modal-content" data-product-id="${item._id}">
                 <button class="close-button" id="closeModalButton">&times;</button>
-
                 <div class="product-details">
                     <div class="image-column">
                         <div class="main-image-container">
@@ -57,13 +48,11 @@ function renderModal(item) {
                             ${item.images[2] ? `<div class="image-thumb"><img src="${item.images[2]}" alt="Додаткове зображення 2" class="thumb-image"></div>` : ''}
                         </div>
                     </div>
-
                     <div class="product-info-column">
                         <h1 class="product-title">${item.name}</h1>
                         <p class="product-category">${item.type}</p>
                         <p class="product-price">${item.price} грн</p>
                         <div class="product-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                        
                         <div class="color-options">
                             <p class="color-label">Колір</p>
                             <div class="color-swatches" id="modalColorOptions">
@@ -77,10 +66,8 @@ function renderModal(item) {
                                 }).join('')}
                             </div>
                         </div>
-
                         <p class="product-description">${item.description || "Класичний диван з м'якими подушками та високою спинкою, ідеальний для сімейного відпочинку. Оббивка з якісної зносостійкої тканини."}</p>
                         <p class="product-size"><span class="size-label">Розміри:</span> ${item.dimensions || '280х80х85'}</p>
-
                         <button class="order-button" id="submitOrderButton">Перейти до замовлення</button>
                     </div>
                 </div>
@@ -98,73 +85,13 @@ function renderModal(item) {
     attachModalHandlers(item);
 }
 
-/* function attachModalHandlers(item) {
-    const modal = document.getElementById('productModal');
-    const closeBtn = document.getElementById('closeModalButton');
-    const colorSwatches = modal.querySelectorAll('.color-swatch');
-    const mainImage = document.getElementById('modalMainImage');
-    const submitBtn = document.getElementById('submitOrderButton');
+// ------------------------------------------------------------------
 
-    // Логіка закриття модального вікна
-    const closeModal = () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        modalArea.innerHTML = ''; // Очищаємо контейнер
-    };
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Логіка перемикання кольору та зображення
-    let selectedColorId = colorSwatches[0] ? colorSwatches[0].dataset.colorId : null;
-
-    colorSwatches.forEach(swatch => {
-        swatch.addEventListener('click', () => {
-            // Оновлення стилів
-            colorSwatches.forEach(s => s.classList.remove('selected'));
-            swatch.classList.add('selected');
-            
-            // Оновлення зображення
-            const imgIndex = parseInt(swatch.dataset.imgIndex);
-            if (item.images[imgIndex]) {
-                mainImage.src = item.images[imgIndex];
-            }
-
-            // Зберігання ID для відправки на сервер
-            selectedColorId = swatch.dataset.colorId;
-        });
-    });
-    
-    // Обробник кнопки замовлення
-    submitBtn.addEventListener('click', () => {
-        const orderData = {
-            product_id: item._id,
-            product_name: item.name,
-            color_id: selectedColorId, 
-            price: item.price,
-        };
-
-        console.log('Дані для відправки на сервер:', orderData);
-        // Тут має бути ваш POST запит на сервер з orderData
-        
-        iziToast.success({
-            position: 'topRight',
-            message: 'Замовлення відправлено до консолі!',
-        });
-        
-        closeModal();
-    });
-} */
-
-    function attachModalHandlers(item) {
+function attachModalHandlers(item) {
     const modal = document.getElementById('productModal');
     if (!modal) return;
 
-    // Безпечніше шукати елементи всередині модального вікна
+    // Шукаємо елементи всередині модального вікна
     const closeBtn = modal.querySelector('#closeModalButton');
     const colorSwatches = modal.querySelectorAll('.color-swatch');
     const mainImage = modal.querySelector('#modalMainImage');
@@ -174,17 +101,16 @@ function renderModal(item) {
     // 🔹 Закриття модального вікна
     // -------------------------------
     const closeModal = () => {
-        modal.classList.add('fade-out');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            modal.classList.remove('fade-out');
-            document.body.style.overflow = 'auto';
-            if (typeof modalArea !== 'undefined') modalArea.innerHTML = ''; // очищення, якщо потрібно
-        }, 150); // плавне закриття
+        // Тут прибрано fade-out і setTimeout для спрощення, повертаємо до базової логіки
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        // Оскільки modalArea глобальна
+        modalArea.innerHTML = ''; 
     };
 
     // Закриття при кліку на ✖ або поза вікном
-    closeBtn?.addEventListener('click', closeModal);
+    // Використовуємо звичайні addEventListener, оскільки елементи повинні існувати
+    closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (event) => {
         if (event.target === modal) closeModal();
     });
@@ -192,23 +118,38 @@ function renderModal(item) {
     // -------------------------------
     // 🎨 Робота з кольорами
     // -------------------------------
+    // Початкові значення кольору
     let selectedColorElement = modal.querySelector('.color-swatch.selected');
-    let selectedColorId = selectedColorElement?.dataset.colorId || null;
-    let selectedColorValue = selectedColorElement?.style.backgroundColor || null;
+    let selectedColorValue = selectedColorElement ? selectedColorElement.style.backgroundColor : null;
+
+    // Вставляємо допоміжну функцію конвертації в область видимості, де вона використовується
+    const rgbToHex = (colorStr) => {
+        if (!colorStr || typeof colorStr !== 'string') return colorStr;
+        const s = colorStr.trim();
+        if (s.startsWith('#')) return s.toLowerCase();
+        const nums = s.match(/(\d+(\.\d+)?%?)/g);
+        if (!nums || nums.length < 3) return s;
+
+        const toByte = (val) => val.endsWith('%') ? Math.round(parseFloat(val)/100*255) : Math.round(parseFloat(val));
+        const r = toByte(nums[0]);
+        const g = toByte(nums[1]);
+        const b = toByte(nums[2]);
+
+        const toHex = (n) => n.toString(16).padStart(2, '0');
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toLowerCase();
+    };
 
     colorSwatches.forEach((swatch) => {
         swatch.addEventListener('click', () => {
-            modal.querySelector('.color-swatch.selected')?.classList.remove('selected');
+            modal.querySelector('.color-swatch.selected').classList.remove('selected');
             swatch.classList.add('selected');
 
-            // Зміна головного зображення
             const imgIndex = parseInt(swatch.dataset.imgIndex);
-            if (item.images?.[imgIndex]) {
+            if (item.images[imgIndex]) {
                 mainImage.src = item.images[imgIndex];
             }
 
             // Оновлення вибраного кольору
-            selectedColorId = swatch.dataset.colorId;
             selectedColorValue = swatch.style.backgroundColor;
         });
     });
@@ -216,36 +157,43 @@ function renderModal(item) {
     // -------------------------------
     // 🛒 Кнопка "Перейти до замовлення"
     // -------------------------------
-    submitBtn?.addEventListener('click', () => {
-        if (!selectedColorValue) {
-            alert("Будь ласка, оберіть колір перед продовженням!");
-            return;
+    submitBtn.addEventListener('click', () => {
+        try {
+            // Перевіряємо, чи був встановлений колір (отримуємо обчислений стиль, якщо style.backgroundColor порожній)
+            if (!selectedColorValue && selectedColorElement) {
+                selectedColorValue = getComputedStyle(selectedColorElement).backgroundColor;
+            }
+
+            if (!selectedColorValue) {
+                iziToast.warning({ position: 'topRight', message: "Будь ласка, оберіть колір перед продовженням!" });
+                return;
+            }
+
+            // Конвертація кольору в HEX
+            let colorToSave = selectedColorValue.startsWith('#') 
+                ? selectedColorValue.toLowerCase() 
+                : rgbToHex(selectedColorValue);
+            
+            // Зберігання даних у localStorage
+            localStorage.setItem('selectedFurnitureId', item._id);
+            localStorage.setItem('selectedFurnitureColor', colorToSave);
+            
+            // Закриваємо модальне вікно деталей
+            closeModal();
+
+            // Відкриваємо модальне вікно замовлення
+            const orderModal = document.querySelector('.order-modal');
+            if (orderModal) {
+                orderModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error("Елемент '.order-modal' не знайдено.");
+                iziToast.warning({ position: 'topRight', message: "Форма замовлення недоступна. Дані збережено." });
+            }
+
+        } catch (err) {
+            console.error('Несподівана помилка в обробнику submit:', err);
+            iziToast.error({ position: 'topRight', message: 'Виникла помилка при оформленні замовлення.' });
         }
-
-        // Зберігаємо дані у LocalStorage
-        localStorage.setItem('selectedFurnitureId', item._id);
-        localStorage.setItem('selectedFurnitureColor', selectedColorValue);
-
-        // Закриваємо поточне модальне вікно
-        closeModal();
-
-        // Відкриваємо модальне вікно замовлення
-        const orderModal = document.querySelector('.order-modal');
-        if (orderModal) {
-            orderModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        } else {
-            console.error("Елемент '.order-modal' не знайдено.");
-        }
-
-        /*
-        // Приклад структури для подальшого POST-запиту:
-        const orderData = {
-            product_id: item._id,
-            product_name: item.name,
-            color_id: selectedColorId,
-            price: item.price,
-        };
-        */
     });
 }
