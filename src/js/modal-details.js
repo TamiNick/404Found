@@ -1,3 +1,6 @@
+import Raty from 'raty-js';
+import 'raty-js/src/raty.css';
+
 const modalArea = document.querySelector('.modal-wrapper');
 // Припускаємо, що axios та iziToast доступні глобально
 
@@ -32,6 +35,7 @@ export function addEventDetailButtons() {
     });
 }
 
+
 function renderModal(item) {
     // Створення розмітки модального вікна (без змін, оскільки тут все коректно)
     const modalMarkup = `
@@ -52,7 +56,7 @@ function renderModal(item) {
                         <h1 class="product-title">${item.name}</h1>
                         <p class="product-category">${item.type}</p>
                         <p class="product-price">${item.price} грн</p>
-                        <div class="product-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <div class="product-rating" id="productRating" data-score="${item.rate}"></div>
                         <div class="color-options">
                             <p class="color-label">Колір</p>
                             <div class="color-swatches" id="modalColorOptions">
@@ -83,6 +87,19 @@ function renderModal(item) {
 
     // Додаємо обробники подій для новоствореного контенту
     attachModalHandlers(item);
+    
+    const ratingContainer = document.getElementById('productRating');
+
+    const score = parseFloat(ratingContainer.dataset.score);
+
+    const ratyModal = new Raty(ratingContainer, {
+    readOnly: true,
+    score: score,
+    starType: 'i', 
+    round: { down: 0.25, full: 0.75, up: 0.76 },
+});
+
+    ratyModal.init();
 }
 
 // ------------------------------------------------------------------
