@@ -1,52 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/404Found/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Меблерія</title>
-    <script type="module" crossorigin src="/404Found/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/404Found/assets/vendor-vJBc72Y5.js">
-    <link rel="stylesheet" crossorigin href="/404Found/assets/vendor-0XJPYrGF.css">
-    <link rel="stylesheet" crossorigin href="/404Found/assets/index-Dj1dpO64.css">
-  </head>
-
-  <body>
-    <main>
-      <!-- Loads the specified .html file -->
-      <div class="order-modal hidden">
-	<div class="modal">
-		<button class="order-close" aria-label="Закрити">
-			<svg class="icon">
-				<use href="/404Found/assets/sprite-EFJgpt0v.svg#icon-close"></use>
-			</svg>
-		</button>
-		<h2 class="modal-title">Замовити</h2>
-
-		<form class="order-form">
-			<div class="form-group">
-				<label class="label" for="name">Ім’я*</label>
-				<input type="text" id="name" name="name" placeholder="Дмитро" required>
-			</div>
-
-			<div class="form-group">
-				<label for="phone">Телефон*</label>
-				<input type="tel" id="phone" name="phone" placeholder="38 099 123 22 11" required>
-			</div>
-
-			<div class="form-group area">
-				<label for="comment">Коментар</label>
-				<textarea id="comment" name="comment" placeholder="Введіть ваш коментар"></textarea>
-			</div>
-
-			<button type="submit" class="submit-btn">Надіслати заявку</button>
-		</form>
-	</div>
-</div>
-    </main>
-
-  </body>
-</html>
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
@@ -58,8 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet"/>
 
     <!-- Встроить шрифт IBM Plex Sans Medium -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -71,6 +22,10 @@
 
     <title>Меблерія</title>
 
+    <script type="module" crossorigin src="/404Found/index.js"></script>
+    <link rel="modulepreload" crossorigin href="/404Found/assets/vendor-vJBc72Y5.js">
+    <link rel="stylesheet" crossorigin href="/404Found/assets/vendor-0XJPYrGF.css">
+    <link rel="stylesheet" crossorigin href="/404Found/assets/index-Dj1dpO64.css">
   </head>
   <body>
     <header class="header" id="header">
@@ -133,6 +88,7 @@
 
     <main>
       <!-- Loads the specified .html file -->
+      
       <section class="our-furniture" id="our-furniture">
     <div class="container-furniture">
         <h2 class="title">Наші меблі</h2>
@@ -436,7 +392,35 @@
 </footer>
 
     </main>
+    <div class="order-modal hidden">
+	<div class="modal">
+		<button class="order-close" aria-label="Закрити">
+			<svg class="icon">
+				<use href="/404Found/assets/sprite-EFJgpt0v.svg#icon-close"></use>
+			</svg>
+		</button>
+		<h2 class="modal-title">Замовити</h2>
 
+		<form class="order-form">
+			<div class="form-group">
+				<label class="label" for="name">Ім’я*</label>
+				<input type="text" id="name" name="name" placeholder="Дмитро" required>
+			</div>
+
+			<div class="form-group">
+				<label for="phone">Телефон*</label>
+				<input type="tel" id="phone" name="phone" placeholder="38 099 123 22 11" required>
+			</div>
+
+			<div class="form-group area">
+				<label for="comment">Коментар</label>
+				<textarea id="comment" name="comment" placeholder="Введіть ваш коментар"></textarea>
+			</div>
+
+			<button type="submit" class="submit-btn">Надіслати заявку</button>
+		</form>
+	</div>
+</div>
     <div class="modal-wrapper">
 </div>
   </body>
