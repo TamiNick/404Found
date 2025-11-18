@@ -11,9 +11,16 @@ let query = "";
 let furnitureGallery = document.querySelector(".our-furniture .furniture-items");
 let categoryList = document.querySelector(".our-furniture .options");
 const showMoreButton = document.querySelector(".our-furniture .show-more");
+let loader = document.querySelector(".loader");
+let loaderOfCategoty = document.querySelector(".loader-category");
 
+loader.style.display = "none";
+loaderOfCategoty.style.display = "none";
 
 categoryList.addEventListener("click", async (event) => {
+    furnitureGallery.innerHTML = "";
+    showMoreButton.style.display = "none";
+    loaderOfCategoty.style.display = "block";
     const option = event.target.closest(".option");
     if (!option) return; 
 
@@ -26,7 +33,8 @@ categoryList.addEventListener("click", async (event) => {
     const data = await getImagesByQuery(query, page);
 
     const items = data.furnitures;
-    furnitureGallery.innerHTML = "";
+    //furnitureGallery.innerHTML = "";
+    loaderOfCategoty.style.display = "none";
     createGallery(items);   
 
     totalPages = Math.ceil(data.totalItems / per_page);
@@ -35,14 +43,21 @@ categoryList.addEventListener("click", async (event) => {
 });
 
 showMoreButton.addEventListener("click", async () => {
+    showMoreButton.style.display = "none";
+    loader.style.display = "block"; 
+
     showMoreButton.classList.add("active");
     page++;
     const data = await getImagesByQuery(query, page);
     const items = data.furnitures;
     createGallery(items);
 
+
     showMoreButton.classList.remove("active");
     showMoreButton.style.display = page < totalPages ? "block" : "none";
+
+    loader.style.display = "none";
+    
 });
 
 
